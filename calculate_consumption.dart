@@ -172,19 +172,6 @@ class _EnergyConsumptionPageState extends State<CalculateConsumptionPage> {
   final TextEditingController occupantsController = TextEditingController();
   final TextEditingController surfaceController = TextEditingController();
   final TextEditingController temperatureController = TextEditingController();
-  final TextEditingController heatingSystemController = TextEditingController();
-  final TextEditingController airConditioningController = TextEditingController();
-  final TextEditingController freezerController = TextEditingController();
-  final TextEditingController otherEquipmentController = TextEditingController();
-
-  bool heatingSystem = false;
-  bool airConditioning = false;
-  bool freezer = false;
-  bool otherEquipment = false;
-
-
-
-
 
 
   Future<void> _saveDataToFirebase() async {
@@ -267,31 +254,7 @@ class _EnergyConsumptionPageState extends State<CalculateConsumptionPage> {
 
         });
 
-        if (heatingSystem) {
-          await docRef.collection('equipmentused').add({
-            'name': 'Heating System',
-            'value': double.tryParse(heatingSystemController.text) ?? 0.0,
-          });
-        }
-        if (airConditioning) {
-          await docRef.collection('equipmentused').add({
-            'name': 'Air Conditioning',
-            'value': double.tryParse(airConditioningController.text) ?? 0.0,
-          });
-        }
-        if (freezer) {
-          await docRef.collection('equipmentused').add({
-            'name': 'Freezer',
-            'value': double.tryParse(freezerController.text) ?? 0.0,
-          });
-        }
-        if (otherEquipment) {
-          await docRef.collection('equipmentused').add({
-            'name': otherEquipmentController.text,
-            'value': 0.0 ,
-          });
-        }
-
+      
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Data saved successfully!', style: TextStyle(color: Colors.green.shade900), textAlign: TextAlign.center),
@@ -307,18 +270,7 @@ class _EnergyConsumptionPageState extends State<CalculateConsumptionPage> {
           buildingAreaController,
           occupantsController,
           surfaceController,
-          heatingSystemController,
-          airConditioningController,
-          freezerController,
-          otherEquipmentController
         ].forEach((controller) => controller.clear());
-
-        setState(() {
-          heatingSystem = false;
-          airConditioning = false;
-          freezer = false;
-          otherEquipment = false;
-        });
 
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
